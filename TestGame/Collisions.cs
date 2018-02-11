@@ -9,22 +9,18 @@ namespace TestGame
 {
     class Collisions
     {
-        public bool checkCollisions(int firstPossitionX, int secondPossitionX,
-                                    int firstPossitionY, int secondPossitionY,
-                                    int firstCollisionBoxSizeY, int secondCollisionBoxSizeY,
-                                    int firstCollisionBoxSizeX, int secondCollisionBoxSizeX,
-                                    int firstObjectOffset, int secondObjectOffset)
+        public bool checkCollisions(Sprite firstSprite, Sprite secondSprite)
         {
 
-            Rectangle firstObj = new Rectangle((int)firstPossitionX + firstObjectOffset,
-                                                 (int)firstPossitionY + firstObjectOffset,
-                                                 firstCollisionBoxSizeX - (firstObjectOffset * 2),
-                                                 firstCollisionBoxSizeX - (firstObjectOffset * 2));
+            Rectangle firstObj = new Rectangle((int)firstSprite.SpritePlacement.X + firstSprite.CollisionOffset,
+                                                 (int)firstSprite.SpritePlacement.Y + firstSprite.CollisionOffset,
+                                                 firstSprite.SpriteCollisionBoarders.X - (firstSprite.CollisionOffset * 2),
+                                                 firstSprite.SpriteCollisionBoarders.Y - (firstSprite.CollisionOffset * 2));
 
-            Rectangle secondObj = new Rectangle((int)secondPossitionX + secondObjectOffset,
-                                                (int)secondPossitionY + secondObjectOffset,
-                                                secondCollisionBoxSizeX - (secondObjectOffset * 2),
-                                                secondCollisionBoxSizeY - (secondObjectOffset * 2));
+            Rectangle secondObj = new Rectangle((int)secondSprite.SpritePlacement.X + secondSprite.CollisionOffset,
+                                                (int)secondSprite.SpritePlacement.Y + secondSprite.CollisionOffset,
+                                                secondSprite.SpriteCollisionBoarders.X - (secondSprite.CollisionOffset * 2),
+                                                secondSprite.SpriteCollisionBoarders.Y - (secondSprite.CollisionOffset * 2));
 
             return firstObj.Intersects(secondObj);
 

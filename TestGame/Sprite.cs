@@ -1,15 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace TestGame{
 
     class Sprite{
 
-        private Vector3 spritePlacement;
-        private Vector3 spriteCollisionBoarders;
+        private Vector2 spritePlacement;
+        private Point spriteCollisionBoarders;
         private int collisionOffset; 
 
-        public Vector3 SpritePlacement{
+        public Vector2 SpritePlacement {
 
             get{
                 return spritePlacement;
@@ -20,7 +22,7 @@ namespace TestGame{
             }
         }
 
-        public Vector3 SpriteCollisionBoarders{
+        public Point SpriteCollisionBoarders {
 
             get{
                 return spriteCollisionBoarders;
@@ -41,7 +43,12 @@ namespace TestGame{
             }
         }
 
-        public Sprite(int sprite) {
+        public Sprite(int placementX, int placementY, int pointX, int pointY, int offset) {
+            SpritePlacement = new Vector2(placementX, placementY);
+            SpriteCollisionBoarders = new Point(pointX, pointY);
+            CollisionOffset = offset;
+
+
         }
 
     }
