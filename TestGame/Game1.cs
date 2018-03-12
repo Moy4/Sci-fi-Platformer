@@ -13,6 +13,11 @@ namespace TestGame
         Sprite groundSprite = new Sprite(1, 500, 700, 100, 0);
         Texture2D myImage;
         Texture2D rect;
+
+        /// <summary>
+        /// this is part of farseer testing 
+        /// </summary>
+
         Movement playerMovement;
         Collisions coliderChecker = new Collisions();
 
@@ -24,8 +29,8 @@ namespace TestGame
         }
 
         protected override void Initialize(){
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             base.Initialize();
@@ -48,20 +53,14 @@ namespace TestGame
         }
 
         protected override void Update(GameTime gameTime){
-            
             if (IsActive) { 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
                 ballSprite.SpritePlacement = playerMovement.PlayerControls(ballSprite.SpritePlacement, gameTime, graphics);
                 if (coliderChecker.checkCollisions(ballSprite, groundSprite)) { 
                     playerMovement.grounded = true;
-                    playerMovement.velocity.Y = 0;
+                    playerMovement.gravity = 0;
                 }
-                if (!coliderChecker.checkCollisions(ballSprite, groundSprite)) {
-                    playerMovement.grounded = false;
-                    playerMovement.velocity.Y = 5;
-                }
-
                 base.Update(gameTime);
             }
         }

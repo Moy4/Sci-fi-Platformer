@@ -12,39 +12,59 @@ namespace TestGame
     class Movement
     {
         public bool grounded = false;
-        public Vector2 velocity = new Vector2(0, 10);
+        public int gravity = 5;
+        public int jumpForce = -10;
+        public float maxJumpHeight = 10;
+        public float currentHeight = 0;
+        public float jumpOffset = 90.0f;
+        public Vector2 acceleration = new Vector2(0, 0);
         GamePadState previousState;
         GamePadState statepad;
-        bool hasJumped = false;
 
         public Vector2 PlayerControls(Vector2 position, GameTime gameTime, GraphicsDeviceManager graphic) {
             previousState = GamePad.GetState(PlayerIndex.One);
-            position.Y += velocity.Y;
+            position.Y += acceleration.Y + gravity;
             GamePadCapabilities capabilities = GamePad.GetCapabilities(PlayerIndex.One);
+
             if (capabilities.IsConnected)
             {
-                previousState = statepad;
-                statepad = GamePad.GetState(PlayerIndex.One);
-                if (statepad.ThumbSticks.Left.X < -0.5f)
-                    position.X -= 10.0f;
-                if (statepad.ThumbSticks.Left.X > 0.5f)
-                    position.X += 10.0f;
+                position = BasicMovement(position);
+                position = JumpingSection(position);
+                
+            }
+            return position;
+        }
 
-                if (statepad.DPad.Left == ButtonState.Pressed)
-                    position.X -= 10.0f;
-                if (statepad.DPad.Right == ButtonState.Pressed)
-                    position.X += 10.0f;
+        public Vector2 BasicMovement(Vector2 position) {
+            previousState = statepad;
+            statepad = GamePad.GetState(PlayerIndex.One);
+            if(statepad.ThumbSticks.Left.X < -0.5f)
+                position.X -= 10.0f;
+            if(statepad.ThumbSticks.Left.X > 0.5f)
+                position.X += 10.0f;
 
-           
-                bool wasJump = statepad.Buttons.A == ButtonState.Pressed && previousState.Buttons.A == ButtonState.Released && grounded;
-                if (wasJump) {
-                    grounded = false;
-                    velocity -= new Vector2(0, 150);
-                    hasJumped = true;
-                }
-                if (hasJumped) {
-                    position.Y += velocity.Y;
-                }
+            if(statepad.DPad.Left == ButtonState.Pressed)
+                position.X -= 10.0f;
+            if(statepad.DPad.Right == ButtonState.Pressed)
+                position.X += 10.0f;
+            return position;
+        }
+
+
+        public Vector2 JumpingSection(Vector2 position) {
+
+            bool wasJump = statepad.Buttons.A == ButtonState.Pressed && previousState.Buttons.A == ButtonState.Released && grounded;
+            if(grounded) {
+                currentHeight = position.Y;
+            }
+            if(wasJump) {
+                acceleration.Y = jumpForce;
+                grounded = false;
+                maxJumpHeight = currentHeight - jumpOffset; /// how high can player jump from current location
+            }
+            if(position.Y < maxJumpHeight) {
+                gravity = 5;
+                acceleration.Y = 0;
             }
             return position;
         }
