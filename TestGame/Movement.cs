@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace TestGame
@@ -12,11 +6,12 @@ namespace TestGame
     class Movement
     {
         public bool grounded = false;
+        public bool sided = false;
         public int gravity = 5;
-        public int jumpForce = -10;
+        public int jumpForce = -15;
         public float maxJumpHeight = 10;
         public float currentHeight = 0;
-        public float jumpOffset = 90.0f;
+        public float jumpOffset = 120.0f;
         public Vector2 acceleration = new Vector2(0, 0);
         GamePadState previousState;
         GamePadState statepad;
@@ -56,6 +51,9 @@ namespace TestGame
             bool wasJump = statepad.Buttons.A == ButtonState.Pressed && previousState.Buttons.A == ButtonState.Released && grounded;
             if(grounded) {
                 currentHeight = position.Y;
+            }
+            if(sided) {
+                position.X = 0;
             }
             if(wasJump) {
                 acceleration.Y = jumpForce;

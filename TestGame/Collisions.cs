@@ -21,9 +21,7 @@ namespace TestGame
                                                 (int)secondSprite.SpritePlacement.Y + secondSprite.CollisionOffset,
                                                 secondSprite.SpriteCollisionBoarders.X - (secondSprite.CollisionOffset * 2),
                                                 secondSprite.SpriteCollisionBoarders.Y - (secondSprite.CollisionOffset * 2));
-
-            return firstObj.Intersects(secondObj);
-
+            return firstObj.Intersects(secondObj);         
         }
 
     }

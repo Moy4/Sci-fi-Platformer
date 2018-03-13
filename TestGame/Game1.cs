@@ -14,9 +14,6 @@ namespace TestGame
         Texture2D myImage;
         Texture2D rect;
 
-        /// <summary>
-        /// this is part of farseer testing 
-        /// </summary>
 
         Movement playerMovement;
         Collisions coliderChecker = new Collisions();
@@ -57,9 +54,13 @@ namespace TestGame
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
                 ballSprite.SpritePlacement = playerMovement.PlayerControls(ballSprite.SpritePlacement, gameTime, graphics);
-                if (coliderChecker.checkCollisions(ballSprite, groundSprite)) { 
+                if(coliderChecker.checkCollisions(ballSprite, groundSprite)) {
                     playerMovement.grounded = true;
                     playerMovement.gravity = 0;
+                }
+                else {
+                    playerMovement.grounded = false;
+                    playerMovement.gravity = 5;
                 }
                 base.Update(gameTime);
             }
